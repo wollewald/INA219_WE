@@ -61,7 +61,7 @@ void setup() {
 
   /* If the current values delivered by the INA226 differ by a constant factor
      from values obtained with calibrated equipment you can define a correction factor.
-     Correction factor = current delivered from calibrated equipment / current delivered by INA226
+     Correction factor = current delivered from calibrated equipment / current delivered by INA219
   */
   // ina219.setCorrectionFactor(0.899); // insert your correction factor if necessary
   
