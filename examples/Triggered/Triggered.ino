@@ -63,7 +63,7 @@ void setup() {
      from values obtained with calibrated equipment you can define a correction factor.
      Correction factor = current delivered from calibrated equipment / current delivered by INA219
   */
-  // ina219.setCorrectionFactor(0.899); // insert your correction factor if necessary
+  // ina219.setCorrectionFactor(0.98); // insert your correction factor if necessary
   
   Serial.println("INA219 Current Sensor Example Sketch - Triggered Mode");
  
