@@ -60,7 +60,7 @@ void setup() {
 
   Serial.println("INA219 Current Sensor Example Sketch - Continous");
 
-  /* If the current values delivered by the INA226 differ by a constant factor
+  /* If the current values delivered by the INA219 differ by a constant factor
      from values obtained with calibrated equipment you can define a correction factor.
      Correction factor = current delivered from calibrated equipment / current delivered by INA219
   */
