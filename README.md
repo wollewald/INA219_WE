@@ -5,4 +5,4 @@ It allows to set various ADC modes, gains and bus voltage ranges. Continous mode
 
 I attached a list of public functions and a fritzing scheme for the example sketches.
 
-You find further details very soon here (only in German, sorry): https://wolles-elektronikkiste.de/ina219
+You find further details here (only in German, sorry): https://wolles-elektronikkiste.de/ina219
