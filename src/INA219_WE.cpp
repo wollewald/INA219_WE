@@ -26,7 +26,7 @@ INA219_WE::INA219_WE(){
 void INA219_WE::init(){	
 	reset_INA219();
 	setADCMode(BIT_MODE_12);
-	setMeasureMode(CONTINOUS);
+	setMeasureMode(CONTINUOUS);
 	setPGain(PG_320);
 	setBusRange(BRNG_32);
 	calc_overflow = false;
@@ -175,7 +175,7 @@ void INA219_WE::writeRegister(uint8_t reg, uint16_t val){
 }
   
 uint16_t INA219_WE::readRegister(uint8_t reg){
-  uint8_t MSByte, LSByte = 0;
+  uint8_t MSByte = 0, LSByte = 0;
   uint16_t regValue = 0;
   Wire.beginTransmission(i2cAddress);
   Wire.write(reg);
