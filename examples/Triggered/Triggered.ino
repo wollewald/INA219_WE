@@ -40,7 +40,7 @@ void setup() {
   POWER_DOWN - INA219 switched off
   TRIGGERED  - measurement on demand
   ADC_OFF    - Analog/Digital Converter switched off
-  CONTINOUS  - Continous measurements (DEFAULT)
+  CONTINUOUS  - Continuous measurements (DEFAULT)
   */
   ina219.setMeasureMode(TRIGGERED); // Triggered measurements for this example
   
