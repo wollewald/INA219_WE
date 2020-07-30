@@ -56,7 +56,8 @@ typedef enum INA219_MEASURE_MODE{
 	POWER_DOWN 		= 0b00000000,
 	TRIGGERED		= 0b00000011,
 	ADC_OFF			= 0b00000100,
-	CONTINOUS		= 0b00000111
+	CONTINUOUS		= 0b00000111,
+	CONTINOUS		= 0b00000111  // keeping misspelled enum for backwards compatibility.
 } measureMode;
 
 typedef enum INA219_PGAIN{
