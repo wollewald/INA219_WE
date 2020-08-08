@@ -1,7 +1,7 @@
 /***************************************************************************
 * Example sketch for the INA219_WE library
 *
-* This sketch shows how to use the INA219 module in continuous mode. 
+* This sketch shows how to use the INA219 Power Down mode. 
 *  
 * Further information can be found on:
 * http://wolles-elektronikkiste.de/ina219
