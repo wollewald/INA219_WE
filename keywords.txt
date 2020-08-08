@@ -1,0 +1,64 @@
+#######################################
+# Syntax Coloring Map For INA219_WE
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+INA219_WE	KEYWORD1
+
+# ENUM TYPES
+INA219_ADC_MODE	KEYWORD1
+INA219_MEASURE_MODE	KEYWORD1
+INA219_PGAIN	KEYWORD1
+INA219_BUS_RANGE	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+reset_INA219	KEYWORD2
+init	KEYWORD2
+setCorrectionFactor	KEYWORD2
+setADCMode	KEYWORD2
+setMeasureMode	KEYWORD2
+setPGain	KEYWORD2
+setBusRange	KEYWORD2
+getShuntVoltage_mV	KEYWORD2
+getBusVoltage	KEYWORD2
+getCurrent_mA	KEYWORD2
+getBusPower	KEYWORD2
+getOverflow	KEYWORD2
+startSingleMeasurement	KEYWORD2
+powerDown	KEYWORD2
+powerUp	KEYWORD2
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+# ENUM VALUES
+BIT_MODE_9	LITERAL1
+BIT_MODE_10	LITERAL1
+BIT_MODE_11	LITERAL1
+BIT_MODE_12	LITERAL1
+SAMPLE_MODE_2	LITERAL1
+SAMPLE_MODE_4	LITERAL1
+SAMPLE_MODE_8	LITERAL1
+SAMPLE_MODE_16	LITERAL1
+SAMPLE_MODE_32	LITERAL1
+SAMPLE_MODE_64	LITERAL1
+SAMPLE_MODE_128	LITERAL1
+POWER_DOWN	LITERAL1
+TRIGGERED	LITERAL1
+ADC_OFF	LITERAL1
+CONTINUOUS	LITERAL1
+CONTINOUS	LITERAL1
+PG_40	LITERAL1
+PG_80	LITERAL1
+PG_160	LITERAL1
+PG_320	LITERAL1
+BRNG_16	LITERAL1
+BRNG_32	LITERAL1
