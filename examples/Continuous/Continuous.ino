@@ -58,7 +58,7 @@ void setup() {
   */
   // ina219.setBusRange(BRNG_32); // choose range and uncomment for change of default
 
-  Serial.println("INA219 Current Sensor Example Sketch - Continous");
+  Serial.println("INA219 Current Sensor Example Sketch - Continuous");
 
   /* If the current values delivered by the INA219 differ by a constant factor
      from values obtained with calibrated equipment you can define a correction factor.
