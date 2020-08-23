@@ -23,17 +23,23 @@ INA219_WE::INA219_WE(){
 	i2cAddress = 0x40;
 }
 	
-void INA219_WE::init(){	
-	reset_INA219();
+bool INA219_WE::init(){	
+	if( !reset_INA219() )
+    {
+        return false;
+    }
 	setADCMode(BIT_MODE_12);
 	setMeasureMode(CONTINUOUS);
 	setPGain(PG_320);
 	setBusRange(BRNG_32);
 	calc_overflow = false;
+    
+    return true;
 }
 
-void INA219_WE::reset_INA219(){
-	writeRegister(INA219_CONF_REG, INA219_RST); 
+bool INA219_WE::reset_INA219(){
+	byte ack = writeRegister(INA219_CONF_REG, INA219_RST); 
+    return ack == 0;
 }
 
 void INA219_WE::setCorrectionFactor(float corr){
@@ -164,14 +170,14 @@ void INA219_WE::powerUp(){
 	private functions
 *************************************************/
 
-void INA219_WE::writeRegister(uint8_t reg, uint16_t val){
+byte INA219_WE::writeRegister(uint8_t reg, uint16_t val){
   Wire.beginTransmission(i2cAddress);
   uint8_t lVal = val & 255;
   uint8_t hVal = val >> 8;
   Wire.write(reg);
   Wire.write(hVal);
   Wire.write(lVal);
-  Wire.endTransmission();
+  return Wire.endTransmission();
 }
   
 uint16_t INA219_WE::readRegister(uint8_t reg){
