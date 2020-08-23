@@ -18,7 +18,9 @@ INA219_WE ina219(I2C_ADDRESS);
 void setup() {
   Serial.begin(9600);
   Wire.begin();
-  ina219.init();
+  if(!ina219.init()){
+    Serial.println("INA219 not connected!");
+  }
 
   /* Set ADC Mode for Bus and ShuntVoltage
   * Mode *            * Res / Samples *       * Conversion Time *
