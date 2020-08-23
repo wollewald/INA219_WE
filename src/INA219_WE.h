@@ -79,8 +79,8 @@ public:
 	INA219_WE(int addr);
 	INA219_WE();			//sets default I2C Address 0x40
   
-	void init();
-	void reset_INA219();
+	bool init();
+	bool reset_INA219();
 	void setCorrectionFactor(float corr);
 	void setADCMode(INA219_ADC_MODE mode);
 	void setMeasureMode(INA219_MEASURE_MODE mode);
@@ -107,7 +107,7 @@ private:
 	float currentDivider_mA;
 	float pwrMultiplier_mW;
 	bool calc_overflow;
-	void writeRegister(uint8_t reg, uint16_t val);
+	byte writeRegister(uint8_t reg, uint16_t val);
 	uint16_t readRegister(uint8_t reg);
 
 };
