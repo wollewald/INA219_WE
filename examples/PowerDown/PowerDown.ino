@@ -18,7 +18,9 @@ void setup() {
   Serial.begin(9600);
   Wire.begin();
   // default parameters are set - for change check the other examples
-  ina219.init();
+  if(!ina219.init()){
+    Serial.println("INA219 not connected!");
+  }
   Serial.println("INA219 Current Sensor Example Sketch - PowerDown");
   Serial.println("Continuous Sampling starts");
   Serial.println();
