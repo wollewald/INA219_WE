@@ -4,7 +4,8 @@
 * This sketch shows how to use the INA219 Power Down mode. 
 *  
 * Further information can be found on:
-* http://wolles-elektronikkiste.de/ina219
+* https://wolles-elektronikkiste.de/ina219 (German)
+* https://wolles-elektronikkiste.de/en/ina219-current-and-power-sensor (English)
 * 
 ***************************************************************************/
 #include <Wire.h>
