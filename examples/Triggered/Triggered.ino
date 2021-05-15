@@ -13,8 +13,14 @@
 #include <INA219_WE.h>
 #define I2C_ADDRESS 0x40
 
-INA219_WE ina219(I2C_ADDRESS);
-// INA219_WE ina219 = INA219_WE(); // Alternative: sets default address 0x40
+/* There are several ways to create your INA219 object:
+ * INA219_WE ina219 = INA219_WE()              -> uses Wire / I2C Address = 0x40
+ * INA219_WE ina219 = INA219_WE(ICM20948_ADDR) -> uses Wire / I2C_ADDRESS
+ * INA219_WE ina219 = INA219_WE(&wire2)        -> uses the TwoWire object wire2 / I2C_ADDRESS
+ * INA219_WE ina219 = INA219_WE(&wire2, I2C_ADDRESS) -> all together
+ * Successfully tested with two I2C busses on an ESP32
+ */
+INA219_WE ina219 = INA219_WE(I2C_ADDRESS);
 
 void setup() {
   Serial.begin(9600);
