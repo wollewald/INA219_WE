@@ -112,6 +112,8 @@ private:
     float currentDivider_mA;
     float pwrMultiplier_mW;
     bool calc_overflow;
+
+public:
     byte writeRegister(uint8_t reg, uint16_t val);
     uint16_t readRegister(uint8_t reg);
 
