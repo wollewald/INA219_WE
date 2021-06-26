@@ -176,14 +176,9 @@ void INA219_WE::powerDown(){
 void INA219_WE::powerUp(){
     writeRegister(INA219_CONF_REG, confRegCopy);
     delayMicroseconds(40);  
-}
-    
+}   
 
-/************************************************ 
-    private functions
-*************************************************/
-
-byte INA219_WE::writeRegister(uint8_t reg, uint16_t val){
+uint8_t INA219_WE::writeRegister(uint8_t reg, uint16_t val){
   _wire->beginTransmission(i2cAddress);
   uint8_t lVal = val & 255;
   uint8_t hVal = val >> 8;
