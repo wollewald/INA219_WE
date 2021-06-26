@@ -98,6 +98,8 @@ public:
     void startSingleMeasurement();
     void powerDown();
     void powerUp(); 
+    uint8_t writeRegister(uint8_t reg, uint16_t val);
+    uint16_t readRegister(uint8_t reg);
     
 private:
     INA219_ADC_MODE deviceADCMode;
@@ -112,11 +114,6 @@ private:
     float currentDivider_mA;
     float pwrMultiplier_mW;
     bool calc_overflow;
-
-public:
-    byte writeRegister(uint8_t reg, uint16_t val);
-    uint16_t readRegister(uint8_t reg);
-
 };
 
 #endif
