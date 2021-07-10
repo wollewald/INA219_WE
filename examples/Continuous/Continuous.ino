@@ -34,13 +34,13 @@ void setup() {
   BIT_MODE_10       10 Bit Resolution            148 µs  
   BIT_MODE_11       11 Bit Resolution            276 µs
   BIT_MODE_12       12 Bit Resolution            532 µs  (DEFAULT)
-  SAMPLE_MODE_2     Mean Value 2 samples         1,06 ms
-  SAMPLE_MODE_4     Mean Value 4 samples         2,13 ms
-  SAMPLE_MODE_8     Mean Value 8 samples         4,26 ms
-  SAMPLE_MODE_16    Mean Value 16 samples        8,51 ms     
-  SAMPLE_MODE_32    Mean Value 32 samples        17,02 ms
-  SAMPLE_MODE_64    Mean Value 64 samples        34,05 ms
-  SAMPLE_MODE_128   Mean Value 128 samples       68,10 ms
+  SAMPLE_MODE_2     Mean Value 2 samples         1.06 ms
+  SAMPLE_MODE_4     Mean Value 4 samples         2.13 ms
+  SAMPLE_MODE_8     Mean Value 8 samples         4.26 ms
+  SAMPLE_MODE_16    Mean Value 16 samples        8.51 ms     
+  SAMPLE_MODE_32    Mean Value 32 samples        17.02 ms
+  SAMPLE_MODE_64    Mean Value 64 samples        34.05 ms
+  SAMPLE_MODE_128   Mean Value 128 samples       68.10 ms
   */
   //ina219.setADCMode(SAMPLE_MODE_128); // choose mode and uncomment for change of default
   
@@ -53,11 +53,11 @@ void setup() {
   // ina219.setMeasureMode(CONTINUOUS); // choose mode and uncomment for change of default
   
   /* Set PGain
-  * Gain *  * Shunt Voltage Range *   * Max Current *
-   PG_40       40 mV                    0,4 A
-   PG_80       80 mV                    0,8 A
-   PG_160      160 mV                   1,6 A
-   PG_320      320 mV                   3,2 A (DEFAULT)
+  * Gain *  * Shunt Voltage Range *   * Max Current (if shunt is 0.1 ohms) *
+   PG_40       40 mV                    0.4 A
+   PG_80       80 mV                    0.8 A
+   PG_160      160 mV                   1.6 A
+   PG_320      320 mV                   3.2 A (DEFAULT)
   */
   // ina219.setPGain(PG_320); // choose gain and uncomment for change of default
   
