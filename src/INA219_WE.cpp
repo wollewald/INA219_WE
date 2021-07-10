@@ -45,6 +45,7 @@ bool INA219_WE::init(){
     setMeasureMode(CONTINUOUS);
     setPGain(PG_320);
     setBusRange(BRNG_32);
+    shuntFactor = 1.0;
     calc_overflow = false;
     
     return true;
@@ -122,6 +123,10 @@ void INA219_WE::setBusRange(INA219_BUS_RANGE range){
     writeRegister(INA219_CONF_REG, currentConfReg);
 }
 
+void INA219_WE::setShuntSizeInOhms(float shuntSize){
+    shuntFactor = shuntSize / 0.1;
+}
+
 float INA219_WE::getShuntVoltage_mV(){
     int16_t val;
     val = (int16_t) readRegister(INA219_SHUNT_REG);
@@ -140,14 +145,14 @@ float INA219_WE::getBusVoltage_V(){
 float INA219_WE::getCurrent_mA(){
     int16_t val;
     val = (int16_t)readRegister(INA219_CURRENT_REG);
-    return (val / currentDivider_mA);
+    return (val / (currentDivider_mA * shuntFactor));
 }
 
 
 float INA219_WE::getBusPower(){
     uint16_t val;
     val = readRegister(INA219_PWR_REG);
-    return (val * pwrMultiplier_mW);
+    return (val * pwrMultiplier_mW / shuntFactor);
 }
 
 bool INA219_WE::getOverflow(){
