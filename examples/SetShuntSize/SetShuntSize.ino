@@ -55,10 +55,10 @@ void setup() {
   
  /* Set PGain
   * Gain *  * Shunt Voltage Range *         * Max Current *
-    PG_40          40 mV               0.4 A * shuntSizeInOhms / 0.1
-    PG_80          80 mV               0.8 A * shuntSizeInOhms / 0.1
-    PG_160        160 mV               1.6 A * shuntSizeInOhms / 0.1
-    PG_320        320 mV               3.2 A * shuntSizeInOhms / 0.1 (DEFAULT)
+    PG_40          40 mV               0.4 A * 0.1 / shuntSizeInOhms 
+    PG_80          80 mV               0.8 A * 0.1 / shuntSizeInOhms 
+    PG_160        160 mV               1.6 A * 0.1 / shuntSizeInOhms 
+    PG_320        320 mV               3.2 A * 0.1 / shuntSizeInOhms (DEFAULT)
   */
  //ina219.setPGain(PG_320); // choose gain and uncomment for change of default
   
