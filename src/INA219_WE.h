@@ -51,7 +51,7 @@ typedef enum INA219_ADC_MODE{
     SAMPLE_MODE_32  = 0b00001101,
     SAMPLE_MODE_64  = 0b00001110,
     SAMPLE_MODE_128 = 0b00001111
-} adcMode;
+} ina219AdcMode;
 
 typedef enum INA219_MEASURE_MODE{
     POWER_DOWN      = 0b00000000,
@@ -59,19 +59,19 @@ typedef enum INA219_MEASURE_MODE{
     ADC_OFF         = 0b00000100,
     CONTINUOUS      = 0b00000111,
     CONTINOUS       = 0b00000111  // keeping misspelled enum for backwards compatibility.
-} measureMode;
+} ina219MeasureMode;
 
 typedef enum INA219_PGAIN{
     PG_40       = 0x0000,
     PG_80       = 0x0800,
     PG_160      = 0x1000,
     PG_320      = 0x1800
-} pGain;
+} ina219PGain;
 
 typedef enum INA219_BUS_RANGE{
     BRNG_16         = 0x0000,
     BRNG_32         = 0x2000,
-} busRange;
+} ina219BusRange;
 
 
 class INA219_WE
