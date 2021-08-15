@@ -115,7 +115,8 @@ private:
     float shuntFactor; 
     float currentDivider_mA;
     float pwrMultiplier_mW;
-    bool calc_overflow;
+    bool overflow;
+    uint16_t shuntOverflowLimit;
 };
 
 #endif

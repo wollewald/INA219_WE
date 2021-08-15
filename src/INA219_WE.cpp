@@ -46,7 +46,7 @@ bool INA219_WE::init(){
     setPGain(PG_320);
     setBusRange(BRNG_32);
     shuntFactor = 1.0;
-    calc_overflow = false;
+    overflow = false;
     
     return true;
 }
@@ -93,21 +93,25 @@ void INA219_WE::setPGain(INA219_PGAIN gain){
             calVal = 20480;
             currentDivider_mA = 50.0;
             pwrMultiplier_mW = 0.4;
+            shuntOverflowLimit = 4000;
             break;
         case PG_80:
             calVal = 10240;
             currentDivider_mA = 25.0;
             pwrMultiplier_mW = 0.8;
+            shuntOverflowLimit = 8000;
             break;
         case PG_160:
             calVal = 8192;
             currentDivider_mA = 20.0;
             pwrMultiplier_mW = 1.0;
+            shuntOverflowLimit = 16000;
             break;
         case PG_320:
             calVal = 4096;
             currentDivider_mA = 10.0;
             pwrMultiplier_mW = 2.0;
+            shuntOverflowLimit = 32000;
             break;
     }
     
@@ -130,7 +134,14 @@ void INA219_WE::setShuntSizeInOhms(float shuntSize){
 float INA219_WE::getShuntVoltage_mV(){
     int16_t val;
     val = (int16_t) readRegister(INA219_SHUNT_REG);
-    return (val * 0.01);    
+    
+    if((abs(val))== shuntOverflowLimit){
+        overflow = true;
+    }
+    else{
+        overflow = false;
+    }
+    return (val * 0.01);
 }
 
 
@@ -148,7 +159,6 @@ float INA219_WE::getCurrent_mA(){
     return (val / (currentDivider_mA * shuntFactor));
 }
 
-
 float INA219_WE::getBusPower(){
     uint16_t val;
     val = readRegister(INA219_PWR_REG);
@@ -158,10 +168,11 @@ float INA219_WE::getBusPower(){
 bool INA219_WE::getOverflow(){
     uint16_t val;
     val = readRegister(INA219_BUS_REG);
-    bool ovf = (val & 1);
-    return ovf;
+    if(val & 1){ 
+        overflow = true;
+    }
+    return overflow;
 }
-
 
 void INA219_WE::startSingleMeasurement(){
     uint16_t val = readRegister(INA219_BUS_REG); // clears CNVR (Conversion Ready) Flag
