@@ -97,6 +97,7 @@ public:
     float getBusPower();
     bool getOverflow();
     void startSingleMeasurement();
+    bool startSingleMeasurement(unsigned long timeout_us);
     void powerDown();
     void powerUp(); 
     uint8_t writeRegister(uint8_t reg, uint16_t val);

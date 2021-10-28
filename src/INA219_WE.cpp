@@ -184,6 +184,23 @@ void INA219_WE::startSingleMeasurement(){
     }
 }
 
+
+bool INA219_WE::startSingleMeasurement(unsigned long timeout_us){
+    uint16_t val = readRegister(INA219_BUS_REG); // clears CNVR (Conversion Ready) Flag
+    val = readRegister(INA219_CONF_REG);
+    writeRegister(INA219_CONF_REG, val);
+    uint16_t convReady = 0x0000;
+	unsigned long convStart = micros();
+    while(!convReady && (micros() - convStart < timeout_us)){
+        convReady = ((readRegister(INA219_BUS_REG)) & 0x0002); // checks if sampling is completed
+    }
+	if(convReady) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 void INA219_WE::powerDown(){
     confRegCopy = readRegister(INA219_CONF_REG);
     setMeasureMode(POWER_DOWN);
