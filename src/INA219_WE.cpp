@@ -46,6 +46,9 @@ bool INA219_WE::init(){
     setPGain(PG_320);
     setBusRange(BRNG_32);
     shuntFactor = 1.0;
+    shuntOffsetVoltage_mV = 0.0;
+    latestVoltage = 0.0;
+    latestCurrent = 0.0;
     overflow = false;
     
     return true;
@@ -131,46 +134,49 @@ void INA219_WE::setShuntSizeInOhms(float shuntSize){
     shuntFactor = shuntSize / 0.1;
 }
 
+void INA219_WE::setShuntVoltageOffset_mV(float offsetVoltage){
+    shuntOffsetVoltage_mV = offsetVoltage;
+}
+
+float INA219_WE::getShuntVoltageOffset_mV(){
+    return shuntOffsetVoltage_mV;
+}
+
 float INA219_WE::getShuntVoltage_mV(){
     int16_t val;
     val = (int16_t) readRegister(INA219_SHUNT_REG);
-    
-    if((abs(val))== shuntOverflowLimit){
-        overflow = true;
-    }
-    else{
-        overflow = false;
-    }
-    return (val * 0.01);
+    overflow = (abs(val)) == shuntOverflowLimit;
+    return (val * 0.01 + shuntOffsetVoltage_mV);
 }
-
 
 float INA219_WE::getBusVoltage_V(){
     uint16_t val;
     val = readRegister(INA219_BUS_REG);
     val = ((val>>3) * 4);
-    return (val * 0.001);
+    latestVoltage = val * 0.001;
+    return (latestVoltage);
 }
-
 
 float INA219_WE::getCurrent_mA(){
     int16_t val;
     val = (int16_t)readRegister(INA219_CURRENT_REG);
-    return (val / (currentDivider_mA * shuntFactor));
+    latestCurrent = val / (currentDivider_mA * shuntFactor) + (shuntOffsetVoltage_mV * shuntFactor * 10);
+    return (latestCurrent);
 }
 
 float INA219_WE::getBusPower(){
     uint16_t val;
-    val = readRegister(INA219_PWR_REG);
-    return (val * pwrMultiplier_mW / shuntFactor);
+
+    if (shuntOffsetVoltage_mV == 0.0){
+        val = readRegister(INA219_PWR_REG);	
+        return (val * pwrMultiplier_mW / shuntFactor);
+    } else {
+        return (latestVoltage * latestCurrent);
+    }
 }
 
 bool INA219_WE::getOverflow(){
-    uint16_t val;
-    val = readRegister(INA219_BUS_REG);
-    if(val & 1){ 
-        overflow = true;
-    }
+    overflow = readRegister(INA219_BUS_REG) & 1;
     return overflow;
 }
 
@@ -184,7 +190,6 @@ void INA219_WE::startSingleMeasurement(){
     }
 }
 
-
 bool INA219_WE::startSingleMeasurement(unsigned long timeout_us){
     uint16_t val = readRegister(INA219_BUS_REG); // clears CNVR (Conversion Ready) Flag
     val = readRegister(INA219_CONF_REG);
@@ -194,11 +199,8 @@ bool INA219_WE::startSingleMeasurement(unsigned long timeout_us){
     while(!convReady && (micros() - convStart < timeout_us)){
         convReady = ((readRegister(INA219_BUS_REG)) & 0x0002); // checks if sampling is completed
     }
-	if(convReady) {
-		return true;
-	} else {
-		return false;
-	}
+
+    return convReady;
 }
 
 void INA219_WE::powerDown(){
