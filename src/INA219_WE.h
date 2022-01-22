@@ -92,6 +92,7 @@ public:
     void setBusRange(INA219_BUS_RANGE range);
     void setShuntSizeInOhms(float shuntSize);
     void setShuntVoltageOffset(float offsetVoltage);
+    float getShuntVoltageOffset_mV(){
     float getShuntVoltage_mV();
     float getBusVoltage_V();
     float getCurrent_mA();
@@ -119,6 +120,8 @@ private:
     float pwrMultiplier_mW;
     bool overflow;
     uint16_t shuntOverflowLimit;
+    float latestVoltage;
+    float latestCurrent;
     float shuntOffsetVoltage_mV;
 };
 
