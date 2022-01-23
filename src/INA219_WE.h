@@ -91,7 +91,7 @@ public:
     void setPGain(INA219_PGAIN gain);
     void setBusRange(INA219_BUS_RANGE range);
     void setShuntSizeInOhms(float shuntSize);
-    void setShuntVoltageOffset(float offsetVoltage);
+    void setShuntVoltageOffset_mV(float offsetVoltage);
     float getShuntVoltageOffset_mV();
     float getShuntVoltage_mV();
     float getBusVoltage_V();
