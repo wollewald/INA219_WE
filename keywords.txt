@@ -26,6 +26,7 @@ setMeasureMode	KEYWORD2
 setPGain	KEYWORD2
 setBusRange	KEYWORD2
 setShuntSizeInOhms	KEYWORD2
+setShuntVoltOffset_mV	KEYWORD2
 getShuntVoltage_mV	KEYWORD2
 getBusVoltage	KEYWORD2
 getCurrent_mA	KEYWORD2
