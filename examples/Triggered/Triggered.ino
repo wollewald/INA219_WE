@@ -73,6 +73,12 @@ void setup() {
      Correction factor = current delivered from calibrated equipment / current delivered by INA219
   */
   // ina219.setCorrectionFactor(0.98); // insert your correction factor if necessary
+
+  /* If you experience a shunt voltage offset, that means you detect a shunt voltage which is not 
+     zero, although the current should be zero, you can apply a correction. For this, uncomment the 
+     following function and apply the offset you have detected.   
+  */
+  // ina219.setShuntVoltOffset_mV(0.0); // insert the shunt voltage (millivolts) you detect at zero current
   
   Serial.println("INA219 Current Sensor Example Sketch - Triggered Mode");
 
