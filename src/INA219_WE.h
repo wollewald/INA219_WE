@@ -86,6 +86,7 @@ public:
     bool init();
     bool reset_INA219();
     void setCorrectionFactor(float corr);
+    void setShuntVoltOffset_mV(float offs);
     void setADCMode(INA219_ADC_MODE mode);
     void setMeasureMode(INA219_MEASURE_MODE mode);
     void setPGain(INA219_PGAIN gain);
@@ -113,10 +114,12 @@ private:
     uint16_t calVal;
     uint16_t calValCorrected;
     uint16_t confRegCopy;
+    float shuntVoltageOffset;
     float shuntFactor; 
     float currentDivider_mA;
     float pwrMultiplier_mW;
     bool overflow;
+    bool offsetIsSet;
     uint16_t shuntOverflowLimit;
 };
 

@@ -47,6 +47,8 @@ bool INA219_WE::init(){
     setBusRange(BRNG_32);
     shuntFactor = 1.0;
     overflow = false;
+    shuntVoltageOffset = 0.0;
+    offsetIsSet = false;
     
     return true;
 }
@@ -59,6 +61,11 @@ bool INA219_WE::reset_INA219(){
 void INA219_WE::setCorrectionFactor(float corr){
     calValCorrected = calVal * corr;
     writeRegister(INA219_CAL_REG, calValCorrected);
+}
+
+void INA219_WE::setShuntVoltOffset_mV(float offs){
+    shuntVoltageOffset = offs;
+    offsetIsSet = true; 
 }
 
 void INA219_WE::setADCMode(INA219_ADC_MODE mode){
@@ -134,7 +141,6 @@ void INA219_WE::setShuntSizeInOhms(float shuntSize){
 float INA219_WE::getShuntVoltage_mV(){
     int16_t val;
     val = (int16_t) readRegister(INA219_SHUNT_REG);
-    
     if((abs(val))== shuntOverflowLimit){
         overflow = true;
     }
@@ -155,14 +161,27 @@ float INA219_WE::getBusVoltage_V(){
 
 float INA219_WE::getCurrent_mA(){
     int16_t val;
+    int16_t offsetCurrent = 0;
     val = (int16_t)readRegister(INA219_CURRENT_REG);
-    return (val / (currentDivider_mA * shuntFactor));
+    if(offsetIsSet){
+        offsetCurrent = (int16_t)(shuntVoltageOffset * 100.0 * calVal / 4096.0);
+    }
+    return ((val - offsetCurrent) / (currentDivider_mA * shuntFactor));
 }
 
 float INA219_WE::getBusPower(){
     uint16_t val;
-    val = readRegister(INA219_PWR_REG);
-    return (val * pwrMultiplier_mW / shuntFactor);
+    float busPwr = 0.0;
+    if(offsetIsSet){
+        float current = getCurrent_mA();
+        float busVolt = getBusVoltage_V();
+        busPwr = current * busVolt;   
+    }
+    else{
+        val = readRegister(INA219_PWR_REG);
+        busPwr = val * pwrMultiplier_mW / shuntFactor;
+    }
+    return busPwr;
 }
 
 bool INA219_WE::getOverflow(){
@@ -190,15 +209,15 @@ bool INA219_WE::startSingleMeasurement(unsigned long timeout_us){
     val = readRegister(INA219_CONF_REG);
     writeRegister(INA219_CONF_REG, val);
     uint16_t convReady = 0x0000;
-	unsigned long convStart = micros();
+    unsigned long convStart = micros();
     while(!convReady && (micros() - convStart < timeout_us)){
         convReady = ((readRegister(INA219_BUS_REG)) & 0x0002); // checks if sampling is completed
     }
-	if(convReady) {
-		return true;
-	} else {
-		return false;
-	}
+    if(convReady) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 void INA219_WE::powerDown(){
