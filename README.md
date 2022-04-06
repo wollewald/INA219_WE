@@ -13,4 +13,3 @@ https://wolles-elektronikkiste.de/ina219  (German)
 
 https://wolles-elektronikkiste.de/en/ina219-current-and-power-sensor (English)
 
-Note: Version 1.1.2 corrected a misspelling of "continuous" which might lead to backwards incompatibilities. You might need to change your code.  
