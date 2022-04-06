@@ -24,8 +24,14 @@
 #else
  #include "WProgram.h"
 #endif
+#include "ina219_config.h"
 
-#include <Wire.h>
+#ifdef USE_TINY_WIRE_M_
+ #include <TinyWireM.h>
+#endif
+#ifndef USE_TINY_WIRE_M_
+ #include <Wire.h>
+#endif
 
 /* registers */
 #define INA219_ADDRESS      0x40
@@ -80,8 +86,10 @@ public:
     // Constructors: if not passed 0x40 / Wire will be set as address / wire object
     INA219_WE(int addr);
     INA219_WE();
+#ifndef USE_TINY_WIRE_M_   
     INA219_WE(TwoWire *w, int addr);
     INA219_WE(TwoWire *w);
+#endif
   
     bool init();
     bool reset_INA219();
@@ -109,7 +117,9 @@ private:
     INA219_MEASURE_MODE deviceMeasureMode;
     INA219_PGAIN devicePGain;
     INA219_BUS_RANGE deviceBusRange;
+#ifndef USE_TINY_WIRE_M_    
     TwoWire *_wire;
+#endif
     int i2cAddress;
     uint16_t calVal;
     uint16_t calValCorrected;
