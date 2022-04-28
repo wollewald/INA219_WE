@@ -48,6 +48,7 @@ void setup() {
   else{
     oled.print("INA219 connected");
     delay(1000);
+    oled.clear();
   }
 
   /* Set ADC Mode for Bus and ShuntVoltage
@@ -117,18 +118,25 @@ void loop() {
   //loadVoltage_V  = busVoltage_V + (shuntVoltage_mV/1000);
   //ina219_overflow = ina219.getOverflow();
 
-  oled.clear();
-  oled.setCursor(0, 0);
+  oled.setCursor(0,0);
   oled.print("Current [mA]: ");
   oled.print(current_mA);
-  oled.setCursor(0, 10); 
+  oled.clearToEOL();
+  
+  oled.setCursor(0,2); //10
   oled.print("Power [mW]:   ");
   oled.print(power_mW);
-  oled.setCursor(0, 20); 
+  oled.clearToEOL();
+  
+  oled.setCursor(0,4); 
   oled.print("Bus [V]:      ");
   oled.print(busVoltage_V);
-  oled.setCursor(0, 30); 
+  oled.clearToEOL();
+  
+  oled.setCursor(0,6); 
   oled.print("Shunt [mV]:   ");
   oled.print(shuntVoltage_mV);
+  oled.clearToEOL();
+  
   delay(3000);
 }
