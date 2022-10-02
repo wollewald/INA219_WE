@@ -153,8 +153,7 @@ float INA219_WE::getShuntVoltage_mV(){
     else{
         overflow = false;
     }
-    val -= shuntVoltageOffset;
-    return (val * 0.01);
+    return ((val * 0.01) - shuntVoltageOffset);
 }
 
 
