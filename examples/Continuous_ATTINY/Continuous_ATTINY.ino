@@ -29,7 +29,7 @@ uint8_t height = 64;
 
 /* There are several ways to create your INA219 object:
  * INA219_WE ina219 = INA219_WE()              -> uses I2C Address = 0x40
- * INA219_WE ina219 = INA219_WE(ICM20948_ADDR) -> define I2C_ADDRESS
+ * INA219_WE ina219 = INA219_WE(I2C_ADDRESS) -> define I2C_ADDRESS
  */
 INA219_WE ina219 = INA219_WE(I2C_ADDRESS);
 
@@ -105,11 +105,11 @@ void setup() {
 
 void loop() {
   float shuntVoltage_mV = 0.0;
-  float loadVoltage_V = 0.0;
+  //float loadVoltage_V = 0.0;
   float busVoltage_V = 0.0;
   float current_mA = 0.0;
   float power_mW = 0.0; 
-  bool ina219_overflow = false;
+  //bool ina219_overflow = false;
   
   shuntVoltage_mV = ina219.getShuntVoltage_mV();
   busVoltage_V = ina219.getBusVoltage_V();
