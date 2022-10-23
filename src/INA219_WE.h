@@ -33,18 +33,6 @@
  #include <Wire.h>
 #endif
 
-/* registers */
-#define INA219_ADDRESS      0x40
-#define INA219_CONF_REG     0x00 //Configuration Register
-#define INA219_SHUNT_REG    0x01 //Shunt Voltage Register
-#define INA219_BUS_REG      0x02 //Bus Voltage Register
-#define INA219_PWR_REG      0x03 //Power Register 
-#define INA219_CURRENT_REG  0x04 //Current flowing through Shunt
-#define INA219_CAL_REG      0x05 //Calibration Register 
-
-/* parameters */
-#define INA219_RST             0x8000
-
 typedef enum INA219_ADC_MODE{
     BIT_MODE_9      = 0b00000000,   
     BIT_MODE_10     = 0b00000001,
@@ -82,55 +70,66 @@ typedef enum INA219_BUS_RANGE{
 
 class INA219_WE
 {
-public: 
-    // Constructors: if not passed 0x40 / Wire will be set as address / wire object
-    INA219_WE(int addr);
-    INA219_WE();
-#ifndef USE_TINY_WIRE_M_   
-    INA219_WE(TwoWire *w, int addr);
-    INA219_WE(TwoWire *w);
-#endif
-  
-    bool init();
-    bool reset_INA219();
-    void setCorrectionFactor(float corr);
-    void setShuntVoltOffset_mV(float offs);
-    void setADCMode(INA219_ADC_MODE mode);
-    void setMeasureMode(INA219_MEASURE_MODE mode);
-    void setPGain(INA219_PGAIN gain);
-    void setBusRange(INA219_BUS_RANGE range);
-    void setShuntSizeInOhms(float shuntSize);
-    float getShuntVoltage_mV();
-    float getBusVoltage_V();
-    float getCurrent_mA();
-    float getBusPower();
-    bool getOverflow();
-    void startSingleMeasurement();
-    bool startSingleMeasurement(unsigned long timeout_us);
-    void powerDown();
-    void powerUp(); 
-    uint8_t writeRegister(uint8_t reg, uint16_t val);
-    uint16_t readRegister(uint8_t reg);
+    public: 
+        /* registers */
+        static constexpr uint8_t INA219_ADDRESS      {0x40};
+        static constexpr uint8_t INA219_CONF_REG     {0x00}; //Configuration Register
+        static constexpr uint8_t INA219_SHUNT_REG    {0x01}; //Shunt Voltage Register
+        static constexpr uint8_t INA219_BUS_REG      {0x02}; //Bus Voltage Register
+        static constexpr uint8_t INA219_PWR_REG      {0x03}; //Power Register 
+        static constexpr uint8_t INA219_CURRENT_REG  {0x04}; //Current flowing through Shunt
+        static constexpr uint8_t INA219_CAL_REG      {0x05}; //Calibration Register 
+
+        /* parameters */
+        static constexpr uint16_t INA219_RST         {0x8000};
     
-private:
-    INA219_ADC_MODE deviceADCMode;
-    INA219_MEASURE_MODE deviceMeasureMode;
-    INA219_PGAIN devicePGain;
-    INA219_BUS_RANGE deviceBusRange;
+        // Constructors: if not passed 0x40 / Wire will be set as address / wire object
+#ifndef USE_TINY_WIRE_M_   
+        INA219_WE(const uint8_t addr = 0x40) : _wire{&Wire}, i2cAddress{addr} {}
+        INA219_WE(TwoWire *w, const uint8_t addr = 0x40) : _wire{w}, i2cAddress{addr} {}
+#else
+        INA219_WE(const uint8_t addr = 0x40) : i2cAddress{addr} {}
+#endif   
+        bool init();
+        bool reset_INA219();
+        void setCorrectionFactor(float corr);
+        void setShuntVoltOffset_mV(float offs);
+        void setADCMode(INA219_ADC_MODE mode);
+        void setMeasureMode(INA219_MEASURE_MODE mode);
+        void setPGain(INA219_PGAIN gain);
+        void setBusRange(INA219_BUS_RANGE range);
+        void setShuntSizeInOhms(float shuntSize);
+        float getShuntVoltage_mV();
+        float getBusVoltage_V();
+        float getCurrent_mA();
+        float getBusPower();
+        bool getOverflow();
+        void startSingleMeasurement();
+        bool startSingleMeasurement(unsigned long timeout_us);
+        void powerDown();
+        void powerUp(); 
+        uint8_t writeRegister(uint8_t reg, uint16_t val);
+        uint16_t readRegister(uint8_t reg);
+    
+    private:
+        INA219_ADC_MODE deviceADCMode;
+        INA219_MEASURE_MODE deviceMeasureMode;
+        INA219_PGAIN devicePGain;
+        INA219_BUS_RANGE deviceBusRange;
 #ifndef USE_TINY_WIRE_M_    
-    TwoWire *_wire;
+        TwoWire *_wire;
 #endif
-    int i2cAddress;
-    uint16_t calVal;
-    uint16_t calValCorrected;
-    uint16_t confRegCopy;
-    float shuntVoltageOffset;
-    float shuntFactor; 
-    float currentDivider_mA;
-    float pwrMultiplier_mW;
-    bool overflow;
-    bool offsetIsSet;
-    uint16_t shuntOverflowLimit;
+        uint8_t i2cAddress;
+        uint16_t calVal;
+        uint16_t calValCorrected;
+        uint16_t confRegCopy;
+        float shuntVoltageOffset;
+        float shuntFactor; 
+        float currentDivider_mA;
+        float pwrMultiplier_mW;
+        bool overflow;
+        bool offsetIsSet;
+        uint16_t shuntOverflowLimit;
 };
 
 #endif

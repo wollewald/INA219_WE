@@ -16,32 +16,6 @@
 
 #include "INA219_WE.h"
 
-INA219_WE::INA219_WE(int addr){
-#ifndef USE_TINY_WIRE_M_
-    _wire = &Wire;
-#endif
-    i2cAddress = addr;   
-}
-
-INA219_WE::INA219_WE(){
-#ifndef USE_TINY_WIRE_M_
-    _wire = &Wire;
-#endif
-    i2cAddress = 0x40;   
-}
-
-#ifndef USE_TINY_WIRE_M_
-INA219_WE::INA219_WE(TwoWire *w, int addr){
-    _wire = w;
-    i2cAddress = addr; 
-}
-
-INA219_WE::INA219_WE(TwoWire *w){
-    _wire = w;
-    i2cAddress = 0x40;
-}
-#endif
-    
 bool INA219_WE::init(){ 
     if( !reset_INA219() )
     {
@@ -170,7 +144,7 @@ float INA219_WE::getCurrent_mA(){
     int16_t offsetCurrent = 0;
     val = (int16_t)readRegister(INA219_CURRENT_REG);
     if(offsetIsSet){
-        offsetCurrent = (int16_t)(shuntVoltageOffset * 100.0 * calVal / 4096.0);
+        offsetCurrent = static_cast<int16_t>(shuntVoltageOffset * 100.0 * calVal / 4096.0);
     }
     return ((val - offsetCurrent) / (currentDivider_mA * shuntFactor));
 }
@@ -253,7 +227,7 @@ uint16_t INA219_WE::readRegister(uint8_t reg){
   _wire->beginTransmission(i2cAddress);
   _wire->write(reg);
   _wire->endTransmission(false);
-  _wire->requestFrom(i2cAddress,2);
+  _wire->requestFrom(i2cAddress,static_cast<uint8_t>(2));
   if(_wire->available()){
     MSByte = _wire->read();
     LSByte = _wire->read();
@@ -278,7 +252,7 @@ uint16_t INA219_WE::readRegister(uint8_t reg){
   TinyWireM.beginTransmission(i2cAddress);
   TinyWireM.send(reg);
   TinyWireM.endTransmission();
-  TinyWireM.requestFrom(i2cAddress,2);
+  TinyWireM.requestFrom(i2cAddress,static_cast<uint8_t>(2));
   MSByte = TinyWireM.receive();
   LSByte = TinyWireM.receive();
   regValue = (MSByte<<8) + LSByte;
