@@ -28,7 +28,7 @@ setBusRange	KEYWORD2
 setShuntSizeInOhms	KEYWORD2
 setShuntVoltOffset_mV	KEYWORD2
 getShuntVoltage_mV	KEYWORD2
-getBusVoltage	KEYWORD2
+getBusVoltage_V	KEYWORD2
 getCurrent_mA	KEYWORD2
 getBusPower	KEYWORD2
 getOverflow	KEYWORD2
