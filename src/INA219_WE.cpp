@@ -173,6 +173,10 @@ bool INA219_WE::getOverflow(){
     return overflow;
 }
 
+bool INA219_WE::getConversionReady(){
+	return readRegister(INA219_BUS_REG) & 0x0002;
+}
+
 void INA219_WE::startSingleMeasurement(){
     uint16_t val = readRegister(INA219_CONF_REG);
     writeRegister(INA219_CONF_REG, val);
