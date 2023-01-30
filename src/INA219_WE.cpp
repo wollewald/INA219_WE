@@ -174,7 +174,11 @@ bool INA219_WE::getOverflow(){
 }
 
 bool INA219_WE::getConversionReady(){
-	return readRegister(INA219_BUS_REG) & 0x0002;
+	if(readRegister(INA219_BUS_REG) & 0x0002){
+		readRegister(INA219_PWR_REG); //Reset the CNVR flag!
+		return true;
+	}
+	return false;
 }
 
 void INA219_WE::startSingleMeasurement(){
