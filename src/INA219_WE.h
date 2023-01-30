@@ -104,7 +104,7 @@ class INA219_WE
         float getCurrent_mA();
         float getBusPower();
         bool getOverflow();
-		bool getConversionReady(); //Note: ConversionReady only gets reset if getBusPower is called (or the Configuration Register is written somehow)!
+	bool getConversionReady();
         void startSingleMeasurement();
         bool startSingleMeasurement(unsigned long timeout_us);
         void powerDown();
