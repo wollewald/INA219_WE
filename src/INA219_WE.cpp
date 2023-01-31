@@ -174,11 +174,11 @@ bool INA219_WE::getOverflow(){
 }
 
 bool INA219_WE::getConversionReady(){
-	if(readRegister(INA219_BUS_REG) & 0x0002){
-		readRegister(INA219_PWR_REG); //Reset the CNVR flag!
-		return true;
-	}
-	return false;
+    if(readRegister(INA219_BUS_REG) & 0x0002){
+        readRegister(INA219_PWR_REG); //Reset the CNVR flag!
+        return true;
+    }
+    return false;
 }
 
 void INA219_WE::startSingleMeasurement(){
@@ -218,51 +218,51 @@ void INA219_WE::powerUp(){
 
 #ifndef USE_TINY_WIRE_M_
 uint8_t INA219_WE::writeRegister(uint8_t reg, uint16_t val){
-  _wire->beginTransmission(i2cAddress);
-  uint8_t lVal = val & 255;
-  uint8_t hVal = val >> 8;
-  _wire->write(reg);
-  _wire->write(hVal);
-  _wire->write(lVal);
-  return _wire->endTransmission();
+    _wire->beginTransmission(i2cAddress);
+    uint8_t lVal = val & 255;
+    uint8_t hVal = val >> 8;
+    _wire->write(reg);
+    _wire->write(hVal);
+    _wire->write(lVal);
+    return _wire->endTransmission();
 }
   
 uint16_t INA219_WE::readRegister(uint8_t reg){
-  uint8_t MSByte = 0, LSByte = 0;
-  uint16_t regValue = 0;
-  _wire->beginTransmission(i2cAddress);
-  _wire->write(reg);
-  _wire->endTransmission(false);
-  _wire->requestFrom(i2cAddress,static_cast<uint8_t>(2));
-  if(_wire->available()){
-    MSByte = _wire->read();
-    LSByte = _wire->read();
-  }
-  regValue = (MSByte<<8) + LSByte;
-  return regValue;
+    uint8_t MSByte = 0, LSByte = 0;
+    uint16_t regValue = 0;
+    _wire->beginTransmission(i2cAddress);
+    _wire->write(reg);
+    _wire->endTransmission(false);
+    _wire->requestFrom(i2cAddress,static_cast<uint8_t>(2));
+    if(_wire->available()){
+        MSByte = _wire->read();
+        LSByte = _wire->read();
+    }
+    regValue = (MSByte<<8) + LSByte;
+    return regValue;
 }
 #else
 uint8_t INA219_WE::writeRegister(uint8_t reg, uint16_t val){
-  TinyWireM.beginTransmission(i2cAddress);
-  uint8_t lVal = val & 255;
-  uint8_t hVal = val >> 8;
-  TinyWireM.send(reg);
-  TinyWireM.send(hVal);
-  TinyWireM.send(lVal);
-  return TinyWireM.endTransmission();
+    TinyWireM.beginTransmission(i2cAddress);
+    uint8_t lVal = val & 255;
+    uint8_t hVal = val >> 8;
+    TinyWireM.send(reg);
+    TinyWireM.send(hVal);
+    TinyWireM.send(lVal);
+    return TinyWireM.endTransmission();
 }
   
 uint16_t INA219_WE::readRegister(uint8_t reg){
-  uint8_t MSByte = 0, LSByte = 0;
-  uint16_t regValue = 0;
-  TinyWireM.beginTransmission(i2cAddress);
-  TinyWireM.send(reg);
-  TinyWireM.endTransmission();
-  TinyWireM.requestFrom(i2cAddress,static_cast<uint8_t>(2));
-  MSByte = TinyWireM.receive();
-  LSByte = TinyWireM.receive();
-  regValue = (MSByte<<8) + LSByte;
-  return regValue;
+    uint8_t MSByte = 0, LSByte = 0;
+    uint16_t regValue = 0;
+    TinyWireM.beginTransmission(i2cAddress);
+    TinyWireM.send(reg);
+    TinyWireM.endTransmission();
+    TinyWireM.requestFrom(i2cAddress,static_cast<uint8_t>(2));
+    MSByte = TinyWireM.receive();
+    LSByte = TinyWireM.receive();
+    regValue = (MSByte<<8) + LSByte;
+    return regValue;
 }
 #endif
 
