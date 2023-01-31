@@ -173,9 +173,16 @@ bool INA219_WE::getOverflow(){
     return overflow;
 }
 
+bool INA219_WE::getConversionReady(){
+	if(readRegister(INA219_BUS_REG) & 0x0002){
+		readRegister(INA219_PWR_REG); //Reset the CNVR flag!
+		return true;
+	}
+	return false;
+}
+
 void INA219_WE::startSingleMeasurement(){
-    uint16_t val = readRegister(INA219_BUS_REG); // clears CNVR (Conversion Ready) Flag
-    val = readRegister(INA219_CONF_REG);
+    uint16_t val = readRegister(INA219_CONF_REG);
     writeRegister(INA219_CONF_REG, val);
     uint16_t convReady = 0x0000;
     while(!convReady){
@@ -185,8 +192,7 @@ void INA219_WE::startSingleMeasurement(){
 
 
 bool INA219_WE::startSingleMeasurement(unsigned long timeout_us){
-    uint16_t val = readRegister(INA219_BUS_REG); // clears CNVR (Conversion Ready) Flag
-    val = readRegister(INA219_CONF_REG);
+    uint16_t val = readRegister(INA219_CONF_REG);
     writeRegister(INA219_CONF_REG, val);
     uint16_t convReady = 0x0000;
     unsigned long convStart = micros();
