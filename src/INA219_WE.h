@@ -122,7 +122,7 @@ class INA219_WE
 #endif
         uint8_t i2cAddress;
         uint16_t calVal;
-        uint16_t calValCorrected;
+        float calValCorrFactor;
         uint16_t confRegCopy;
         float shuntVoltageOffset;
         float shuntFactor; 

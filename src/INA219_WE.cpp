@@ -21,6 +21,7 @@ bool INA219_WE::init(){
     {
         return false;
     }
+    calValCorrFactor = 1.0;
     setADCMode(BIT_MODE_12);
     setMeasureMode(CONTINUOUS);
     setPGain(PG_320);
@@ -39,7 +40,8 @@ bool INA219_WE::reset_INA219(){
 }
 
 void INA219_WE::setCorrectionFactor(float corr){
-    calValCorrected = calVal * corr;
+    calValCorrFactor = corr;
+    uint16_t calValCorrected = static_cast<uint16_t>(calVal * calValCorrFactor);
     writeRegister(INA219_CAL_REG, calValCorrected);
 }
 
@@ -102,8 +104,8 @@ void INA219_WE::setPGain(INA219_PGAIN gain){
             break;
     }
     
-    writeRegister(INA219_CAL_REG, calVal);
-            
+    uint16_t calValCorrected = static_cast<uint16_t>(calVal * calValCorrFactor);
+    writeRegister(INA219_CAL_REG, calValCorrected);       
 }
 
 void INA219_WE::setBusRange(INA219_BUS_RANGE range){
