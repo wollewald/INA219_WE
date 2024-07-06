@@ -26,6 +26,7 @@ void setup() {
   Wire.begin();
   if(!ina219.init()){
     Serial.println("INA219 not connected!");
+    while(1);
   }
 
   /* Set ADC Mode for Bus and ShuntVoltage
