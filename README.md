@@ -12,6 +12,8 @@ The enumeration names I had chosen could lead to collisions with other libraries
 Furthermore, I have added current-only and bus-voltage-only conversion modes. 
 Finally, I have added a non-blocking version of the triggered mode including an example sketch. 
 
+<h2>Further documentation</h2>
+
 You find further details of the INA219 and my library here: 
 
 https://wolles-elektronikkiste.de/ina219  (German)
