@@ -21,7 +21,7 @@
 INA219_WE ina219 = INA219_WE(I2C_ADDRESS);
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   Wire.begin();
   // default parameters are set - for change check the other examples
   if(!ina219.init()){
@@ -48,7 +48,7 @@ void loop() {
   
   Serial.println("Power up!");
   Serial.println("");
-  ina219.powerUp();
+  ina219.powerUp(); // requires 40 µs
 }
 
 void continuousSampling(){
@@ -75,7 +75,7 @@ void continuousSampling(){
     Serial.println("Values OK - no overflow");
   }
   else{
-    Serial.println("Overflow! Choose higher PGAIN");
+    Serial.println("Overflow! Choose higher shunt voltage range or a smaller shunt.");
   }
   Serial.println();
 }
