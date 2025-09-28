@@ -34,37 +34,40 @@
 #endif
 
 typedef enum INA219_ADC_MODE{
-    BIT_MODE_9      = 0b00000000,   
-    BIT_MODE_10     = 0b00000001,
-    BIT_MODE_11     = 0b00000010,
-    BIT_MODE_12     = 0b00000011,
-    SAMPLE_MODE_2   = 0b00001001,
-    SAMPLE_MODE_4   = 0b00001010,
-    SAMPLE_MODE_8   = 0b00001011,
-    SAMPLE_MODE_16  = 0b00001100,
-    SAMPLE_MODE_32  = 0b00001101,
-    SAMPLE_MODE_64  = 0b00001110,
-    SAMPLE_MODE_128 = 0b00001111
+    INA219_BIT_MODE_9      = 0b00000000,   
+    INA219_BIT_MODE_10     = 0b00000001,
+    INA219_BIT_MODE_11     = 0b00000010,
+    INA219_BIT_MODE_12     = 0b00000011,
+    INA219_SAMPLE_MODE_2   = 0b00001001,
+    INA219_SAMPLE_MODE_4   = 0b00001010,
+    INA219_SAMPLE_MODE_8   = 0b00001011,
+    INA219_SAMPLE_MODE_16  = 0b00001100,
+    INA219_SAMPLE_MODE_32  = 0b00001101,
+    INA219_SAMPLE_MODE_64  = 0b00001110,
+    INA219_SAMPLE_MODE_128 = 0b00001111
 } ina219AdcMode;
 
 typedef enum INA219_MEASURE_MODE{
-    POWER_DOWN      = 0b00000000,
-    TRIGGERED       = 0b00000011,
-    ADC_OFF         = 0b00000100,
-    CONTINUOUS      = 0b00000111,
-    CONTINOUS       = 0b00000111  // keeping misspelled enum for backwards compatibility.
+    INA219_POWER_DOWN,
+    INA219_TRIGGERED_CURRENT_ONLY,
+    INA219_TRIGGERED_BUS_ONLY,
+    INA219_TRIGGERED,   // bus voltage and shunt
+    INA219_ADC_OFF,
+    INA219_CONTINUOUS_CURRENT_ONLY,
+    INA219_CONTINUOUS_BUS_ONLY, 
+    INA219_CONTINUOUS   // bus and shunt   
 } ina219MeasureMode;
 
 typedef enum INA219_PGAIN{
-    PG_40       = 0x0000,
-    PG_80       = 0x0800,
-    PG_160      = 0x1000,
-    PG_320      = 0x1800
+    INA219_PG_40       = 0x0000,
+    INA219_PG_80       = 0x0800,
+    INA219_PG_160      = 0x1000,
+    INA219_PG_320      = 0x1800
 } ina219PGain;
 
 typedef enum INA219_BUS_RANGE{
-    BRNG_16         = 0x0000,
-    BRNG_32         = 0x2000,
+    INA219_BRNG_16         = 0x0000,
+    INA219_BRNG_32         = 0x2000,
 } ina219BusRange;
 
 
@@ -106,6 +109,7 @@ class INA219_WE
         bool getOverflow();
         bool getConversionReady();
         void startSingleMeasurement();
+        void startSingleMeasurementNoWait();
         bool startSingleMeasurement(unsigned long timeout_us);
         void powerDown();
         void powerUp(); 

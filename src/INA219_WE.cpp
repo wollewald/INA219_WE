@@ -22,10 +22,10 @@ bool INA219_WE::init(){
         return false;
     }
     calValCorrFactor = 1.0;
-    setADCMode(BIT_MODE_12);
-    setMeasureMode(CONTINUOUS);
-    setPGain(PG_320);
-    setBusRange(BRNG_32);
+    setADCMode(INA219_BIT_MODE_12);
+    setMeasureMode(INA219_CONTINUOUS);
+    setPGain(INA219_PG_320);
+    setBusRange(INA219_BRNG_32);
     shuntFactor = 1.0;
     overflow = false;
     shuntVoltageOffset = 0.0;
@@ -78,25 +78,25 @@ void INA219_WE::setPGain(INA219_PGAIN gain){
     writeRegister(INA219_CONF_REG, currentConfReg);
     
     switch(devicePGain){
-        case PG_40:
+        case INA219_PG_40:
             calVal = 20480;
             currentDivider_mA = 50.0;
             pwrMultiplier_mW = 0.4;
             shuntOverflowLimit = 4000;
             break;
-        case PG_80:
+        case INA219_PG_80:
             calVal = 10240;
             currentDivider_mA = 25.0;
             pwrMultiplier_mW = 0.8;
             shuntOverflowLimit = 8000;
             break;
-        case PG_160:
+        case INA219_PG_160:
             calVal = 8192;
             currentDivider_mA = 20.0;
             pwrMultiplier_mW = 1.0;
             shuntOverflowLimit = 16000;
             break;
-        case PG_320:
+        case INA219_PG_320:
             calVal = 4096;
             currentDivider_mA = 10.0;
             pwrMultiplier_mW = 2.0;
@@ -185,17 +185,21 @@ bool INA219_WE::getConversionReady(){
 
 void INA219_WE::startSingleMeasurement(){
     uint16_t val = readRegister(INA219_CONF_REG);
-    writeRegister(INA219_CONF_REG, val);
+    writeRegister(INA219_CONF_REG, val); // any write to the config register triggers a conversion
     uint16_t convReady = 0x0000;
     while(!convReady){
         convReady = ((readRegister(INA219_BUS_REG)) & 0x0002); // checks if sampling is completed
     }
 }
 
+void INA219_WE::startSingleMeasurementNoWait(){
+    uint16_t val = readRegister(INA219_CONF_REG);
+    writeRegister(INA219_CONF_REG, val);
+}
 
 bool INA219_WE::startSingleMeasurement(unsigned long timeout_us){
     uint16_t val = readRegister(INA219_CONF_REG);
-    writeRegister(INA219_CONF_REG, val);
+    writeRegister(INA219_CONF_REG, val); 
     uint16_t convReady = 0x0000;
     unsigned long convStart = micros();
     while(!convReady && (micros() - convStart < timeout_us)){
@@ -210,7 +214,7 @@ bool INA219_WE::startSingleMeasurement(unsigned long timeout_us){
 
 void INA219_WE::powerDown(){
     confRegCopy = readRegister(INA219_CONF_REG);
-    setMeasureMode(POWER_DOWN);
+    setMeasureMode(INA219_POWER_DOWN);
 }
 
 void INA219_WE::powerUp(){
