@@ -24,14 +24,9 @@
 #else
  #include "WProgram.h"
 #endif
-#include "ina219_config.h"
 
-#ifdef USE_TINY_WIRE_M_
- #include <TinyWireM.h>
-#endif
-#ifndef USE_TINY_WIRE_M_
- #include <Wire.h>
-#endif
+#include <Wire.h>
+
 
 typedef enum INA219_ADC_MODE{
     INA219_BIT_MODE_9      = 0b00000000,   
