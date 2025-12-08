@@ -222,7 +222,6 @@ void INA219_WE::powerUp(){
     delayMicroseconds(40);  
 }   
 
-#ifndef USE_TINY_WIRE_M_
 uint8_t INA219_WE::writeRegister(uint8_t reg, uint16_t val){
     _wire->beginTransmission(i2cAddress);
     uint8_t lVal = val & 255;
@@ -247,29 +246,6 @@ uint16_t INA219_WE::readRegister(uint8_t reg){
     regValue = (MSByte<<8) + LSByte;
     return regValue;
 }
-#else
-uint8_t INA219_WE::writeRegister(uint8_t reg, uint16_t val){
-    TinyWireM.beginTransmission(i2cAddress);
-    uint8_t lVal = val & 255;
-    uint8_t hVal = val >> 8;
-    TinyWireM.send(reg);
-    TinyWireM.send(hVal);
-    TinyWireM.send(lVal);
-    return TinyWireM.endTransmission();
-}
-  
-uint16_t INA219_WE::readRegister(uint8_t reg){
-    uint8_t MSByte = 0, LSByte = 0;
-    uint16_t regValue = 0;
-    TinyWireM.beginTransmission(i2cAddress);
-    TinyWireM.send(reg);
-    TinyWireM.endTransmission();
-    TinyWireM.requestFrom(i2cAddress,static_cast<uint8_t>(2));
-    MSByte = TinyWireM.receive();
-    LSByte = TinyWireM.receive();
-    regValue = (MSByte<<8) + LSByte;
-    return regValue;
-}
-#endif
+
 
 
